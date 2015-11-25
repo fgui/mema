@@ -6,6 +6,12 @@
 
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-doo "0.1.4"]]
+
+  :profiles {:dev
+             {:dependencies [[com.cemerick/piggieback "0.2.1"]
+                             [org.clojure/tools.nrepl "0.2.12"]]
+              :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
+
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]]
 
