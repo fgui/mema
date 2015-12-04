@@ -29,3 +29,5 @@
   (and (not (new? fc))
        (not (repeat? fc))
        (<= ts-from (next-ts fc) ts-to)))
+
+(defn id [fc] (-> fc :card :id))

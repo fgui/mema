@@ -1,6 +1,5 @@
 (ns mema.front-back-card)
 
-
-(create-card [f b] [f b])
-(front [c] (first c))
-(back [c] (second c))
+(defn create [front back] [front back])
+(defn question [[front back]] front)
+(defn answer [[front back]] back)

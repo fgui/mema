@@ -1,5 +1,6 @@
 (ns mema.cloze-card)
 
-(create-card [text blanks] [text blanks])
-(text [c] (first c))
-(blanks [c] (second c))
+(defn create [text blanks] [text blanks])
+(defn text [c] (first c))
+(defn blanks [c] (second c))
+(def key text)
