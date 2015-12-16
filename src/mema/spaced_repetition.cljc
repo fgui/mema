@@ -1,7 +1,10 @@
-(ns mema.spaced-repetition)
+(ns mema.spaced-repetition
+  "implements sm2 of spaced repetitions"
+  (:require [mema.answer :as a])
+  )
 
 ;; ef easy factor. (* 100)
-;; Ir interval repetition (usually in days)
+;; ir interval repetition (usually in days)
 (def initial {:ef 250 :ir 0})
 
 (defn add-to-ef [q]
@@ -25,4 +28,12 @@
   (let  [n-ef (new-ef ef q)]
     (assoc sr
            :ir (next-interval ir n-ef q)
+           :ef n-ef)))
+
+(defn update-with-answer [{:keys [ir ef] :as sr} answer]
+  (let  [score (max (min (a/score answer) 5) 0)
+         n-ef (new-ef ef (a/score answer))]
+    (assoc sr
+           :ts (a/ts answer)
+           :ir (next-interval ir n-ef score)
            :ef n-ef)))

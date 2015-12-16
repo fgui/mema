@@ -30,6 +30,23 @@
       (t/is (= sr2-5 (sut/update-q sr2 5)))
       )))
 
+(t/deftest evolution2
+  (t/testing "evolution of spaced repetition intervals"
+    (let [sr0 {:ef 250 :ir 0}
+          sr0-5 {:ef 250 :ir 1 :ts 1}
+          sr0-3 {:ef 236 :ir 1 :ts 2}
+          sr1 {:ef 200 :ir 1}
+          sr1-4 {:ef 200 :ir 6 :ts 1}
+          sr1-2 {:ef 168 :ir 0 :ts 2}
+          sr2 {:ef 200 :ir 6}
+          sr2-5 {:ef 210 :ir 13 :ts 1}
+          ]
+      (t/is (= sr0-5 (sut/update-with-answer sr0 {:score 5 :ts 1})))
+      (t/is (= sr0-3 (sut/update-with-answer sr0 {:score 3 :ts 2})))
+      (t/is (= sr1-4 (sut/update-with-answer sr1 {:score 4 :ts 1})))
+      (t/is (= sr1-2 (sut/update-with-answer sr1 {:score 2 :ts 2})))
+      (t/is (= sr2-5 (sut/update-with-answer sr2 {:score 5 :ts 1})))
+      )))
 
 (t/deftest test-quality-decimals
   (t/is (< 0 (sut/add-to-ef 4.5) 10))
