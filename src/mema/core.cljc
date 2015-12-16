@@ -1,7 +1,7 @@
 (ns mema.core
   (:require [mema.deck :as deck]
             [mema.session :as session]
-            [mema.flash-card :as fc]
+            [mema.memo-unit :as fc]
             [mema.front-back-card :as fbc]))
 
 (defn mult-card [x y]
@@ -17,12 +17,12 @@
    (map fc/create (mult-cards n))
    ))
 
-(defn play-once
-  (
-    (-> session
-        show-session-status
-        select-next-card
-        show-question
-        (update-session (read-line))
-        ))
-  )
+;; (defn play-once
+;;   (
+;;     (-> session
+;;         show-session-status
+;;         select-next-card
+;;         show-question
+;;         (update-session (read-line))
+;;         ))
+;;   )

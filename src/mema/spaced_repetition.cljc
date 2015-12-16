@@ -3,6 +3,8 @@
   (:require [mema.answer :as a])
   )
 
+(def millis-day (* 24 60 60 1000))
+
 ;; ef easy factor. (* 100)
 ;; ir interval repetition (usually in days)
 (def initial {:ef 250 :ir 0})
@@ -24,12 +26,6 @@
         (= ir 1) 6
         :else (round-up (* (/ ef 100) ir)))))
 
-(defn update-q [{:keys [ir ef] :as sr} q]
-  (let  [n-ef (new-ef ef q)]
-    (assoc sr
-           :ir (next-interval ir n-ef q)
-           :ef n-ef)))
-
 (defn update-with-answer [{:keys [ir ef] :as sr} answer]
   (let  [score (max (min (a/score answer) 5) 0)
          n-ef (new-ef ef (a/score answer))]
@@ -37,3 +33,19 @@
            :ts (a/ts answer)
            :ir (next-interval ir n-ef score)
            :ef n-ef)))
+
+(defn new? [sr]
+  (nil? (:ts sr)))
+
+(defn next-ts [sr]
+  (if (new? sr) 0
+      (+ (:ts sr) (* millis-day (:ir sr)))))
+
+(defn repeat? [sr]
+  (and (not (new? sr))
+       (= 0 (:ir sr))))
+
+(defn due? [sr ts-from ts-to]
+  (and (not (new? sr))
+       (not (repeat? sr))
+       (<= ts-from (next-ts sr) ts-to)))
