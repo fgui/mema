@@ -5,7 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.HTML"}
 
   :plugins [[lein-cljsbuild "1.1.1"]
-            [lein-doo "0.1.4"]]
+            [lein-doo "0.1.4"]
+            [lein-auto "0.1.2"]]
 
   :profiles {:dev
              {:dependencies [[com.cemerick/piggieback "0.2.1"]

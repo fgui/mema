@@ -1,7 +1,6 @@
 (ns mema.spaced-repetition
   "implements sm2 of spaced repetitions"
-  (:require [mema.answer :as a])
-  )
+  (:require [mema.answer :as a]))
 
 (def millis-day (* 24 60 60 1000))
 
@@ -12,23 +11,25 @@
 (defn add-to-ef [q]
   (+ -80 (* q 28) (* q q -2)))
 
-(defn new-ef [ef q]
+(defn- new-ef [ef q]
   (max 110 (min 250 (+ ef (add-to-ef q)))))
 
-(defn round-up [n]
+(defn- round-up [n]
   (let [i (int n)]
     (if (> n i) (inc i) i)))
 
-(defn next-interval [ir ef q]
+(defn- next-interval [ir ef q]
   (if (< q 3) 0
       (cond
         (= ir 0) 1
         (= ir 1) 6
         :else (round-up (* (/ ef 100) ir)))))
 
+;;; public api
+
 (defn update-with-answer [{:keys [ir ef] :as sr} answer]
   (let  [score (max (min (a/score answer) 5) 0)
-         n-ef (new-ef ef (a/score answer))]
+         n-ef (new-ef ef score)]
     (assoc sr
            :ts (a/ts answer)
            :ir (next-interval ir n-ef score)
